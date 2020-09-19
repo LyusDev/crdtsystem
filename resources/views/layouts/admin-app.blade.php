@@ -26,8 +26,8 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
                
-                    <a class="navbar-brand" href="/credit/create">
-                        {{ config('app.name', 'Laravel') }}
+                    <a class="navbar-brand" href="/admin/dashboard">
+                        Admin DashBoard
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                         <span class="navbar-toggler-icon"></span>

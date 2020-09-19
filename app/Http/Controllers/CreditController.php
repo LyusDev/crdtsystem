@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Credit;
 use App\Debtor;
-
+use Auth;
 use App\Mail\ContactFormMail;
 
 class CreditController extends Controller
@@ -18,7 +18,9 @@ class CreditController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        if (Auth::User() == true) {
+            $this->middleware('auth:admin');
+        };
     }
 
     public function index()
@@ -35,10 +37,16 @@ class CreditController extends Controller
      */
     public function create()
     {
+        date_default_timezone_set('Asia/Manila');
+
+        $today = date("D M j g:i:s A T Y");
+    
         $debtors = Debtor::all();
         $credits = Credit::all();
 
-        return view('credit.create', compact('debtors'));
+
+
+        return view('credit.create', compact('debtors','today'));
     }
 
     /**

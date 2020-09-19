@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Debtor;
 use Illuminate\Http\Request;
+use Auth;
 class DebtorController extends Controller
 {
     /**
@@ -11,14 +13,19 @@ class DebtorController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct() {
-        $this->middleware('auth');
+    public function __construct()
+    {
+        if (Auth::User() == true) {
+            $this->middleware('auth:admin');
+        }
+
+        
     }
-    
+
     public function index()
     {
         $debtors = Debtor::all();
-        return view('debtor.index',compact('debtors'));
+        return view('debtor.index', compact('debtors'));
     }
 
     /**
@@ -39,7 +46,7 @@ class DebtorController extends Controller
      */
     public function store(Request $request)
     {
-        $this -> validate($request, [
+        $this->validate($request, [
             'firstname' => 'required',
             'middlename' => '',
             'lastname' => '',
@@ -58,14 +65,13 @@ class DebtorController extends Controller
             'days' => $request->get('days'),
             'interest' => $request->get('interest'),
             'perDayPay' => $request->get('perDayPay'),
-            'totalPayable' => ($request->get('interest')/100) * $request->get('loanAmount') + $request->get('loanAmount'),
+            'totalPayable' => ($request->get('interest') / 100) * $request->get('loanAmount') + $request->get('loanAmount'),
             'email' => $request->get('email'),
         ]);
-        
-        $debtor->save();
-        
-        return redirect('/credit/create');
 
+        $debtor->save();
+
+        return redirect('/credit/create');
     }
 
     /**
